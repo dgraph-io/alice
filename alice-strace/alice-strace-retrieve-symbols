@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 # Pretty-print the output of strace++, using gdb to print out the
 # function/file/line info for stack traces

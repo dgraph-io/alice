@@ -25,7 +25,7 @@ on similar (i.e., Linux-like) operating systems. The following are
 specific requirements:
 
  1. Python-2.7, as the default version of python invoked via
-    /usr/bin/env python.
+    /usr/bin/env python2.
  2. Standard software build tools, such as gcc and GNU Make.
  3. The libunwind libraries, installable in Ubuntu-12.02 using apt-get
     install libunwind7.
