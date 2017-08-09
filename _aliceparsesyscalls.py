@@ -57,7 +57,7 @@ innocent_syscalls = ["_exit","pread","_newselect","_sysctl","accept","accept4","
 "msgrcv","msgsnd","munlock","munlockall","nanosleep","nfsservctl","nice","oldfstat",
 "oldlstat","oldolduname","oldstat","olduname","pause","pciconfig_iobase","pciconfig_read","pciconfig_write",
 "perf_event_open","in","personality","phys","pipe","pipe2","pivot_root","poll",
-"ppoll","prctl","pread64","renamed","preadv","prlimit","prof","profil",
+"ppoll","prctl","pread64","renamed","preadv","prlimit","prlimit64","prof","profil",
 "pselect6","ptrace","putpmsg","query_module","quotactl","read","readahead","readdir",
 "readlink","readlinkat","readv","reboot","recv","recvfrom","recvmsg","recvmmsg",
 "request_key","restart_syscall","rt_sigaction","rt_sigpending","rt_sigprocmask","rt_sigqueueinfo","rt_sigreturn",
@@ -580,7 +580,10 @@ def __get_micro_op(syscall_tid, line, stackinfo, mtrace_recorded):
 					assert memtracker.file_mapped(dest_inode) == False
 					os.rename(replayed_path(dest), replayed_path(dest) + '.deleted_' + str(uuid.uuid1()))
 				os.rename(replayed_path(source), replayed_path(dest))
-	elif parsed_line.syscall == 'unlink':
+	elif parsed_line.syscall == 'unlink' or \
+		(parsed_line.syscall == 'unlinkat' and parsed_line.args[0] == 'AT_FDCWD'):
+		if parsed_line.syscall == 'unlinkat':
+			parsed_line.args.pop(0)
 		if int(parsed_line.ret) != -1:
 			name = proctracker.original_path(eval(parsed_line.args[0]))
 			if is_interesting(name):
