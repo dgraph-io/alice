@@ -557,7 +557,10 @@ def __get_micro_op(syscall_tid, line, stackinfo, mtrace_recorded):
 				os.link(replayed_path(source), replayed_path(dest))
 			else:
 				assert not is_interesting(dest)
-	elif parsed_line.syscall == 'rename':
+	elif parsed_line.syscall == 'rename' or \
+		(parsed_line.syscall == 'renameat' and parsed_line.args[0] == "AT_FDCWD" and parsed_line.args[2] == "AT_FDCWD"):
+		if parsed_line.syscall == 'renameat':
+			parsed_line.args = [parsed_line.args[1], parsed_line.args[3]]
 		if int(parsed_line.ret) != -1:
 			source = proctracker.original_path(eval(parsed_line.args[0]))
 			dest = proctracker.original_path(eval(parsed_line.args[1]))
