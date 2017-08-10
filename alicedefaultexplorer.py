@@ -199,7 +199,7 @@ def default_checks(alice_args, threads = 1):
 	MultiThreadedChecker.reset()
 	atomicity_explanations = dict()
 
-	for mode in (('count', 1), ('count', 3), ('aligned', 4096)):
+	for mode in (('count', 1), ('count', 3)):
 		replayer.set_fs(defaultfs(*mode))
 		for i in range(0, replayer.mops_len()):
 			if i in atomic_patch_middle or (i - 1) in atomic_patch_middle:
