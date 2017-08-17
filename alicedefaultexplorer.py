@@ -57,7 +57,6 @@ class MultiThreadedChecker(threading.Thread):
 		output_stderr = dirname + '.output_stderr'
 		retcode = subprocess.call(args, stdout = open(output_stdout, 'w'), stderr = open(output_stderr, 'w'))
 		MultiThreadedChecker.outputs[crashid] = retcode
-		os.system('rm -rf ' + dirname)
 
 	def run(self):
 		while True:
